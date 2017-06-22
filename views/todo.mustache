@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <div class="">
+      <h1>Matt's Todo List</h1>
+
+      <form method="post">
+        <input id="inputItem"type="text" name="user" placeholder="Add new ToDo" value="">
+        <input name="submit" type="submit" value="Add Todo">
+      </form>
+
+      <ul>
+
+        {{#todos}}
+          {{#.}}
+            <li><input type="checkbox" {{status}}>{{.}}</li>
+          {{/.}}
+        {{/todos}}
+
+
+      </ul>
+
+    </div>
+
+  </body>
+</html>
