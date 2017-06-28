@@ -11,15 +11,19 @@
 
       <form method="post">
         <input id="inputItem"type="text" name="user" placeholder="Add new ToDo" value="">
+        <select name="completed">
+          <option value ="false">False</option>
+          <option value ="true">True</option>
+        </select>
         <input name="submit" type="submit" value="Add Todo">
       </form>
 
       <ul>
 
         {{#todos}}
-          {{#.}}
-            <li><input type="checkbox" {{status}}>{{.}}</li>
-          {{/.}}
+          {{#dataValues}}
+            <li>{{item}}   ---   Status: {{status}}</li>
+          {{/dataValues}}
         {{/todos}}
 
 

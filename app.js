@@ -2,6 +2,7 @@ const express = require('express');
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const models = require('./models');
 
 const app = express();
 
@@ -14,35 +15,54 @@ app.engine('mustache', mustacheExpress());
 app.set('views', './views');
 app.set('view engine', 'mustache');
 
-// const input = document.getElementById('inputItem')
+// const todos = [
+// // {item: "Wash the car", status: "checked"}
+// ];
 
-const todos = [
-// {item: "Wash the car", status: "checked"}
-];
+// const todos = models.todo.build({
+//   item: "Wash the car",
+//   status: false
+// })
+//
+// todos.save().then(function(newTodos){
+//   console.log(newTodos)
+// })
+
 
 //GET FUNCTION
 
 app.get("/", function (req, res) {
-  res.render('todo', { todos: todos });
+  models.todo.findAll().then(function(todolist) {
+  res.render('todo', { todos: todolist })
+  })
+
 });
 
 
 //POST FUNCTION
 
 app.post("/", function (req, res) {
+  const todos = models.todo.build({
+    item: req.body.user,
+    status: req.body.completed
+  })
 
-  req.checkBody("user", "You must enter a todo!").notEmpty();
-
-  var errors = req.validationErrors();
-  if (errors) {
-    res.render('errors', { todos: todos });
-    // var html = errors;
-
-    // res.send(html);
-  } else {
-    todos.push(req.body.user);
+  todos.save().then(function(newTodos){
+    // console.log(newTodos)
     res.redirect('/');
-  }
+
+  })
+
+  // req.checkBody("user", "You must enter a todo!").notEmpty();
+  //
+  // var errors = req.validationErrors();
+  // if (errors) {
+  //   res.render('errors', { todos: todos });
+  //
+  // } else {
+  //   todos.push(req.body.user);
+  //   res.redirect('/');
+  // }
 
 });
 
